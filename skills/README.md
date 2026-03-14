@@ -10,10 +10,6 @@ npx opensquad install <skill-name>
 
 | Skill | Type | Description | Env Vars | Install |
 |-------|------|-------------|----------|---------|
-| [apify](./apify/) | mcp | Web scraping and automation platform. Extract data from any website using pre-built Actors. | `APIFY_TOKEN` | `npx opensquad install apify` |
-| [canva](./canva/) | mcp | Create, search, autofill, and export designs from Canva. | _(none -- OAuth)_ | `npx opensquad install canva` |
-| [instagram-publisher](./instagram-publisher/) | script | Publish Instagram carousel posts from local JPEG images via the Graph API. | `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_USER_ID`, `IMGBB_API_KEY` | `npx opensquad install instagram-publisher` |
-| [blotato](./blotato/) | mcp | Publish and schedule posts across Instagram, LinkedIn, Twitter/X, TikTok, YouTube, and more. | `BLOTATO_API_KEY` | `npx opensquad install blotato` |
 | [image-fetcher](./image-fetcher/) | hybrid | Acquire visual assets via web search, live screenshots (Playwright), and user-provided files. | _(none)_ | `npx opensquad install image-fetcher` |
 | [image-creator](./image-creator/) | mcp | Render HTML/CSS into production-ready PNG images via Playwright. | _(none)_ | `npx opensquad install image-creator` |
 
@@ -29,16 +25,6 @@ Each skill lives in its own folder with a `SKILL.md` file:
 
 ```
 skills/
-  apify/
-    SKILL.md
-  canva/
-    SKILL.md
-  instagram-publisher/
-    SKILL.md
-    scripts/
-      publish.js
-  blotato/
-    SKILL.md
   image-fetcher/
     SKILL.md
   image-creator/
