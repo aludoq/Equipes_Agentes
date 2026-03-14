@@ -1,8 +1,9 @@
-node_modules/
+﻿node_modules/
 .env
 *.log
 squads/*/output/
-_opensquad/_memory/company.md
-_opensquad/_memory/preferences.md
-_opensquad/_browser_profile/
+_Equipes_agentes/_memory/company.md
+_Equipes_agentes/_memory/preferences.md
+_Equipes_agentes/_browser_profile/
 docs/
+

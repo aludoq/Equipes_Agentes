@@ -1,8 +1,8 @@
-# Opensquad Skill Format Reference
+﻿# Equipes_agentes Skill Format Reference
 
 ## SKILL.md Structure
 
-Every Opensquad skill consists of a `SKILL.md` file with YAML frontmatter and a Markdown body.
+Every Equipes_agentes skill consists of a `SKILL.md` file with YAML frontmatter and a Markdown body.
 
 ### Common Frontmatter Fields (all types)
 
@@ -49,7 +49,7 @@ Hybrid skills combine both MCP and script components. Include both `mcp:` and `s
 
 ### Type: prompt
 
-Prompt skills are pure behavioral instructions for agents with no external integration. No additional fields beyond the common fields are required — the Markdown body is the entire skill.
+Prompt skills are pure behavioral instructions for agents with no external integration. No additional fields beyond the common fields are required â€” the Markdown body is the entire skill.
 
 ---
 
@@ -57,11 +57,11 @@ Prompt skills are pure behavioral instructions for agents with no external integ
 
 The body contains instructions for agents. Recommended sections:
 
-- `## When to use` — describes when agents should activate this skill
-- `## Instructions` — step-by-step usage guide
-- `## Available operations` — what the skill can do (especially for MCP/script types)
-- `## Examples` — input/output examples to guide agent behavior
-- `## Error handling` — what to do when things go wrong
+- `## When to use` â€” describes when agents should activate this skill
+- `## Instructions` â€” step-by-step usage guide
+- `## Available operations` â€” what the skill can do (especially for MCP/script types)
+- `## Examples` â€” input/output examples to guide agent behavior
+- `## Error handling` â€” what to do when things go wrong
 
 ---
 
@@ -91,7 +91,7 @@ mcp:
 
 ## When to use
 
-Use this skill when the user or squad pipeline needs to create visual content — social media posts, presentations, flyers, or any graphic design task that benefits from Canva's template library.
+Use this skill when the user or squad pipeline needs to create visual content â€” social media posts, presentations, flyers, or any graphic design task that benefits from Canva's template library.
 
 ## Instructions
 
@@ -133,7 +133,7 @@ script:
 
 ## When to use
 
-Use this skill when the pipeline needs to analyze tabular data from CSV files — generating summaries, detecting trends, computing statistics, or creating visualizations.
+Use this skill when the pipeline needs to analyze tabular data from CSV files â€” generating summaries, detecting trends, computing statistics, or creating visualizations.
 
 ## Instructions
 
@@ -173,7 +173,7 @@ Apply this skill whenever generating content that will be seen by clients, execu
 
 When writing in professional tone:
 
-1. Use formal but accessible language — avoid jargon unless the audience expects it
+1. Use formal but accessible language â€” avoid jargon unless the audience expects it
 2. Lead with the conclusion or recommendation, then support with evidence
 3. Keep sentences concise (aim for 15-20 words average)
 4. Use active voice by default; passive voice only when the actor is unknown or irrelevant
@@ -233,3 +233,4 @@ Use this skill when the pipeline needs to both create and publish social media c
 4. After approval, use the MCP server to publish to the target platforms
 5. Log the published URLs in the output directory
 ```
+

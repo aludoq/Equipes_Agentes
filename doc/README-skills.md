@@ -1,17 +1,17 @@
-# Opensquad Skill Catalog
+﻿# Equipes_agentes Skill Catalog
 
 Browse available skills for your squads. Install any skill with:
 
 ```bash
-npx opensquad install <skill-name>
+npx Equipes_agentes install <skill-name>
 ```
 
 ## Available Skills
 
 | Skill | Type | Description | Env Vars | Install |
 |-------|------|-------------|----------|---------|
-| [image-fetcher](./image-fetcher/) | hybrid | Acquire visual assets via web search, live screenshots (Playwright), and user-provided files. | _(none)_ | `npx opensquad install image-fetcher` |
-| [image-creator](./image-creator/) | mcp | Render HTML/CSS into production-ready PNG images via Playwright. | _(none)_ | `npx opensquad install image-creator` |
+| [image-fetcher](./image-fetcher/) | hybrid | Acquire visual assets via web search, live screenshots (Playwright), and user-provided files. | _(none)_ | `npx Equipes_agentes install image-fetcher` |
+| [image-creator](./image-creator/) | mcp | Render HTML/CSS into production-ready PNG images via Playwright. | _(none)_ | `npx Equipes_agentes install image-creator` |
 
 ## Skill Types
 
@@ -39,3 +39,4 @@ The `SKILL.md` file contains YAML frontmatter (name, type, version, MCP/script c
 2. Add a `SKILL.md` file with valid YAML frontmatter and Markdown body
 3. If the skill includes scripts, place them in a `scripts/` subfolder
 4. Update this README to include the new skill in the catalog table
+

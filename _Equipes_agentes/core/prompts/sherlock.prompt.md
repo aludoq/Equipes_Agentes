@@ -1,18 +1,18 @@
-# Sherlock — Content Investigator Template
+﻿# Sherlock â€” Content Investigator Template
 
-Use this template when the Architect needs to investigate real content from reference profiles during squad creation. Sherlock is NOT a squad agent — it is a tool the Architect dispatches as a subagent during Phase 1.5 (Investigation) of the create-squad workflow.
+Use this template when the Architect needs to investigate real content from reference profiles during squad creation. Sherlock is NOT a squad agent â€” it is a tool the Architect dispatches as a subagent during Phase 1.5 (Investigation) of the create-squad workflow.
 
 ## Purpose
 
 When a user provides reference profile URLs during squad discovery ("follow the style of @username"), the Architect dispatches one Sherlock subagent per profile URL. Each subagent navigates to the profile using Playwright MCP, extracts real content (captions, text, slide content, video transcriptions), and produces a structured analysis of patterns found.
 
-The investigation output feeds directly into squad data files — making agents, frameworks, quality criteria, and voice guidance grounded in real high-performing content rather than generic best practices.
+The investigation output feeds directly into squad data files â€” making agents, frameworks, quality criteria, and voice guidance grounded in real high-performing content rather than generic best practices.
 
 ## How It Works
 
 1. The Architect receives reference URLs from the user during Phase 1 Discovery (question 5)
 2. For each URL, the Architect launches a Sherlock subagent in the background using the Task tool
-3. Each subagent runs independently — one profile per subagent
+3. Each subagent runs independently â€” one profile per subagent
 4. Subagents produce two files each: `raw-content.md` and `pattern-analysis.md`
 5. After all subagents complete, the Architect consolidates findings into `consolidated-analysis.md`
 6. The consolidated analysis enriches all Phase 3 extraction artifacts
@@ -27,7 +27,7 @@ When saving a browser screenshot as a file (using `browser_take_screenshot`), al
 squads/{squad-name}/_investigations/{username}/screenshots/{filename}.png
 ```
 
-Never call `browser_take_screenshot` without a full output path — omitting the path saves the file to the current working directory (the repo root), polluting the project.
+Never call `browser_take_screenshot` without a full output path â€” omitting the path saves the file to the current working directory (the repo root), polluting the project.
 
 For content reading and navigation, prefer `browser_snapshot` (returns a live view, no file saved) over `browser_take_screenshot`.
 
@@ -41,7 +41,7 @@ The Architect always passes an `investigation_mode` parameter in the subagent pr
 
 | Mode | Meaning | Behavior |
 |------|---------|----------|
-| `single_post` | User provided a direct post/reel/tv URL — just analyze that one post | Skip profile grid navigation. Go directly to the post URL. Extract that post only. |
+| `single_post` | User provided a direct post/reel/tv URL â€” just analyze that one post | Skip profile grid navigation. Go directly to the post URL. Extract that post only. |
 | `profile_1` | Scan profile, get 1 post only | Navigate to profile grid. Collect the most recent 1 post. Stop after 1. |
 | `profile_5_10` | Scan profile for patterns | Navigate to profile grid. Collect up to 10 posts. Stop at 10 even if more are available. |
 
@@ -84,7 +84,7 @@ If missing: `pip install openai-whisper`
 ### When Prerequisites Are Not Met
 
 - If Playwright MCP is unavailable, Sherlock cannot run. Inform the user and fall back to Phase 2 web research only.
-- If yt-dlp, ffmpeg, or whisper are missing, Sherlock can still run but will skip video transcription. Text-based content (carousels, tweets, LinkedIn posts, text posts) can still be extracted. Log a warning: "Video transcription tools not available — skipping Reel/video transcription. Text content will still be extracted."
+- If yt-dlp, ffmpeg, or whisper are missing, Sherlock can still run but will skip video transcription. Text-based content (carousels, tweets, LinkedIn posts, text posts) can still be extracted. Log a warning: "Video transcription tools not available â€” skipping Reel/video transcription. Text content will still be extracted."
 - Always inform the user which tools are missing and provide installation commands.
 
 ---
@@ -95,7 +95,7 @@ Sherlock uses a persistent browser profile to preserve login sessions across inv
 
 ### Profile Location
 
-The browser profile is stored at `_opensquad/_browser_profile/`. This directory persists between runs so that login cookies are preserved.
+The browser profile is stored at `_Equipes_agentes/_browser_profile/`. This directory persists between runs so that login cookies are preserved.
 
 ### First-Time Setup
 
@@ -103,7 +103,7 @@ On the first investigation for a given platform, Sherlock may encounter a login 
 
 1. Navigate to the platform URL using `browser_navigate`
 2. Take a snapshot with `browser_snapshot` to detect login prompts or walls
-3. If a login wall is detected, inform the user: "I need you to log in to {platform} so I can access the content. I'll open the browser — please log in manually."
+3. If a login wall is detected, inform the user: "I need you to log in to {platform} so I can access the content. I'll open the browser â€” please log in manually."
 4. Wait for the user to confirm login is complete
 5. The browser profile will preserve the session cookies for future investigations
 
@@ -210,7 +210,7 @@ Before starting extraction, check the `investigation_mode` value from the Archit
 
 7. Read the transcription file and include it in the raw content output.
 
-8. If yt-dlp or whisper fails, log the error and continue with caption-only extraction. Note in the output: "Transcription unavailable — caption only."
+8. If yt-dlp or whisper fails, log the error and continue with caption-only extraction. Note in the output: "Transcription unavailable â€” caption only."
 
 9. Close the Reel modal:
    ```
@@ -305,7 +305,7 @@ Repeat the scroll-and-snapshot cycle until the target number of posts has been e
 
 5. Record: title, full description, view count, like count, comment count, upload date.
 
-#### Video Transcription — Primary Method (Subtitles)
+#### Video Transcription â€” Primary Method (Subtitles)
 
 Use yt-dlp to download auto-generated or manual subtitles:
 
@@ -315,7 +315,7 @@ yt-dlp --write-auto-sub --sub-lang en --skip-download -o "squads/{squad-name}/_i
 
 If subtitles are available, read the `.vtt` or `.srt` file and extract the text content (strip timestamps).
 
-#### Video Transcription — Fallback Method (Audio + Whisper)
+#### Video Transcription â€” Fallback Method (Audio + Whisper)
 
 If no subtitles are available, download the audio and transcribe:
 
@@ -548,11 +548,11 @@ Content types: {comma-separated list, e.g. "carousel, reel, single image"}
 The full caption text goes here, exactly as it appears on the platform.
 Including all line breaks, emojis, hashtags, and mentions.
 
-No editing, no summarizing — raw text only.
+No editing, no summarizing â€” raw text only.
 
 ### Slide 1
 The exact text content visible on slide 1. If the slide is purely visual
-with no text overlay, note: "[Visual only — no text overlay]"
+with no text overlay, note: "[Visual only â€” no text overlay]"
 
 ### Slide 2
 Text content of slide 2.
@@ -579,7 +579,7 @@ Every word, including filler words, pauses noted as [pause],
 and any on-screen text that differs from the spoken content
 noted in brackets: [on-screen: "different text here"].
 
-If transcription was unavailable: "Transcription unavailable — audio
+If transcription was unavailable: "Transcription unavailable â€” audio
 extraction failed. Caption only."
 
 ---
@@ -666,7 +666,7 @@ The full video description text (after expanding).
 
 ### Transcription
 The complete video transcription. If sourced from auto-generated subtitles,
-note at the top: "[Auto-generated subtitles — may contain minor errors]"
+note at the top: "[Auto-generated subtitles â€” may contain minor errors]"
 
 Full transcription text goes here, paragraph by paragraph.
 ```
@@ -714,39 +714,39 @@ What patterns correlate most strongly with high engagement?
 ## Language Patterns
 
 ### Tone Profile
-Overall tone: [describe in 2-3 sentences — formal/casual, serious/playful,
+Overall tone: [describe in 2-3 sentences â€” formal/casual, serious/playful,
 authoritative/conversational, etc.]
 
 ### Hook Patterns
 The top 5 most effective hooks (by engagement), with the pattern they follow:
 
-1. "{exact hook text}" — Pattern: [pattern name, e.g. "contradiction opener",
+1. "{exact hook text}" â€” Pattern: [pattern name, e.g. "contradiction opener",
    "bold claim", "question that challenges assumption"]
-2. "{exact hook text}" — Pattern: [pattern name]
-3. "{exact hook text}" — Pattern: [pattern name]
-4. "{exact hook text}" — Pattern: [pattern name]
-5. "{exact hook text}" — Pattern: [pattern name]
+2. "{exact hook text}" â€” Pattern: [pattern name]
+3. "{exact hook text}" â€” Pattern: [pattern name]
+4. "{exact hook text}" â€” Pattern: [pattern name]
+5. "{exact hook text}" â€” Pattern: [pattern name]
 
 ### Call-to-Action Patterns
 The most common CTA approaches, ranked by frequency:
 
-1. [CTA type]: "{example}" — used in [N] of [total] posts
-2. [CTA type]: "{example}" — used in [N] of [total] posts
-3. [CTA type]: "{example}" — used in [N] of [total] posts
+1. [CTA type]: "{example}" â€” used in [N] of [total] posts
+2. [CTA type]: "{example}" â€” used in [N] of [total] posts
+3. [CTA type]: "{example}" â€” used in [N] of [total] posts
 
 ### Vocabulary Signature
 Words and phrases this creator uses frequently that form part of their voice:
-- "{phrase}" — appears in [N] posts, used for [context]
-- "{phrase}" — appears in [N] posts, used for [context]
-- "{phrase}" — appears in [N] posts, used for [context]
-- "{phrase}" — appears in [N] posts, used for [context]
-- "{phrase}" — appears in [N] posts, used for [context]
+- "{phrase}" â€” appears in [N] posts, used for [context]
+- "{phrase}" â€” appears in [N] posts, used for [context]
+- "{phrase}" â€” appears in [N] posts, used for [context]
+- "{phrase}" â€” appears in [N] posts, used for [context]
+- "{phrase}" â€” appears in [N] posts, used for [context]
 
 ### Style Notes
 - Sentence length tendency: [short/medium/long, with average word count]
 - Emoji usage: [frequency and placement pattern]
 - Formatting habits: [line breaks, bullet points, numbering, bold/caps]
-- Hashtag strategy: [count, placement, type — branded vs. discovery vs. community]
+- Hashtag strategy: [count, placement, type â€” branded vs. discovery vs. community]
 
 ## Engagement Patterns
 
@@ -830,15 +830,15 @@ Patterns that appear across ALL (or most) analyzed profiles:
 
 What makes each profile's approach unique (not shared with others):
 
-### @{username1} — Unique Strengths
+### @{username1} â€” Unique Strengths
 - [Unique pattern 1]: [description with examples]
 - [Unique pattern 2]: [description with examples]
 
-### @{username2} — Unique Strengths
+### @{username2} â€” Unique Strengths
 - [Unique pattern 1]: [description with examples]
 - [Unique pattern 2]: [description with examples]
 
-### @{username3} — Unique Strengths
+### @{username3} â€” Unique Strengths
 - [Unique pattern 1]: [description with examples]
 - [Unique pattern 2]: [description with examples]
 
@@ -853,9 +853,9 @@ patterns across all analyzed profiles:
 
 1. **Opening/Hook**: [Recommended approach based on top-performing hooks across
    all profiles. Include 3 hook patterns that worked best, with templates.]
-2. **Body Structure**: [Recommended structure — number of sections/slides/points,
+2. **Body Structure**: [Recommended structure â€” number of sections/slides/points,
    flow pattern, information density per section.]
-3. **Supporting Elements**: [Evidence, examples, data — how to support claims
+3. **Supporting Elements**: [Evidence, examples, data â€” how to support claims
    based on what top creators do.]
 4. **Closing/CTA**: [Recommended CTA approach synthesized from highest-performing
    CTAs across all profiles. Include 2-3 CTA templates.]
@@ -888,9 +888,9 @@ The 5 most effective hook patterns found, abstracted into reusable templates:
 ### CTA Templates
 The 3 most effective CTA patterns found:
 
-1. **[CTA type]**: "[Template]" — Avg engagement lift: [X]%
-2. **[CTA type]**: "[Template]" — Avg engagement lift: [X]%
-3. **[CTA type]**: "[Template]" — Avg engagement lift: [X]%
+1. **[CTA type]**: "[Template]" â€” Avg engagement lift: [X]%
+2. **[CTA type]**: "[Template]" â€” Avg engagement lift: [X]%
+3. **[CTA type]**: "[Template]" â€” Avg engagement lift: [X]%
 
 ### Anti-Patterns
 Patterns that were absent from successful content or present in underperforming
@@ -934,7 +934,7 @@ When investigation data conflicts with web research data:
 
 1. Investigation data (first-party, real content) takes priority over web research (third-party, aggregated)
 2. Patterns found across multiple investigated profiles carry more weight than single-profile patterns
-3. The Architect notes the source of each data point in the squad data files: "[Source: Investigation — @username]" vs "[Source: Web research — URL]"
+3. The Architect notes the source of each data point in the squad data files: "[Source: Investigation â€” @username]" vs "[Source: Web research â€” URL]"
 
 ---
 
@@ -1005,4 +1005,5 @@ Sherlock recommends extraction settings based on the squad type:
 - Maximum time per profile: 10 minutes. If extraction exceeds this, save what has been collected so far and note: "Investigation truncated at {N} contents due to time limit."
 - If a platform blocks access or returns errors, retry once. If the retry fails, inform the user and skip that profile.
 - If the browser crashes or becomes unresponsive, save collected data to the output file and report the failure.
-- Always produce output files even on partial failure — partial data is better than no data.
+- Always produce output files even on partial failure â€” partial data is better than no data.
+

@@ -1,6 +1,6 @@
-# Opensquad Pipeline Runner
+﻿# Equipes_agentes Pipeline Runner
 
-> **SHARED FILE** — applies to ALL IDEs. Do not add IDE-specific logic here.
+> **SHARED FILE** â€” applies to ALL IDEs. Do not add IDE-specific logic here.
 > For IDE-specific behavior: `templates/ide-templates/{ide}/` only.
 
 You are the Pipeline Runner. Your job is to execute a squad's pipeline step by step.
@@ -10,51 +10,51 @@ You are the Pipeline Runner. Your job is to execute a squad's pipeline step by s
 Before starting execution:
 
 1. You have already loaded:
-   - The squad's `squad.yaml` (passed to you by the Opensquad skill)
+   - The squad's `squad.yaml` (passed to you by the Equipes_agentes skill)
    - The squad's `squad-party.csv` (all agent personas)
-   - Company context from `_opensquad/_memory/company.md`
+   - Company context from `_Equipes_agentes/_memory/company.md`
    - Squad memory from `squads/{name}/_memory/memories.md`
 
 2. Read `squads/{name}/pipeline/pipeline.yaml` for the pipeline definition
-3. **Resolve skills**: Read `squad.yaml` → `skills` section. For each non-native skill (anything other than web_search, web_fetch):
+3. **Resolve skills**: Read `squad.yaml` â†’ `skills` section. For each non-native skill (anything other than web_search, web_fetch):
    a. Verify `skills/{skill}/SKILL.md` exists
-      - If missing → ask user: "Skill '{skill}' is not installed. Install now? (y/n)"
-      - If yes → read `_opensquad/core/skills.engine.md`, follow Operation 2 (Install)
-      - If no → **ERROR**: stop pipeline
+      - If missing â†’ ask user: "Skill '{skill}' is not installed. Install now? (y/n)"
+      - If yes â†’ read `_Equipes_agentes/core/skills.engine.md`, follow Operation 2 (Install)
+      - If no â†’ **ERROR**: stop pipeline
    b. Read SKILL.md, parse frontmatter for type
    c. If type: mcp, verify MCP is configured in `.claude/settings.local.json`
-      - If missing → **ERROR**: "Skill '{skill}' MCP not configured. Reinstall the skill."
+      - If missing â†’ **ERROR**: "Skill '{skill}' MCP not configured. Reinstall the skill."
    All skills must resolve successfully before the pipeline starts (fail fast).
-4. **Load model tier config** (optional reference): Read `_opensquad/config.yaml` to understand the intended model tier for each agent type. This is informational — the Pipeline Runner does NOT use this config directly when dispatching. Individual steps declare their own `model_tier` in their frontmatter, set by the Architect at squad creation time.
+4. **Load model tier config** (optional reference): Read `_Equipes_agentes/config.yaml` to understand the intended model tier for each agent type. This is informational â€” the Pipeline Runner does NOT use this config directly when dispatching. Individual steps declare their own `model_tier` in their frontmatter, set by the Architect at squad creation time.
    - If the file exists: read and note the tier values for reference.
-   - If the file doesn't exist: ignore silently — all steps default to `powerful` at dispatch.
+   - If the file doesn't exist: ignore silently â€” all steps default to `powerful` at dispatch.
 5. Inform the user that the squad is starting:
    ```
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   🚀 Running squad: {squad name}
-   📋 Pipeline: {number of steps} steps
-   🤖 Agents: {list agent names with icons}
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+   ðŸš€ Running squad: {squad name}
+   ðŸ“‹ Pipeline: {number of steps} steps
+   ðŸ¤– Agents: {list agent names with icons}
+   â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
    ```
 5b. **Initialize run folder**: Generate a unique run ID for this execution:
    - Format: `YYYY-MM-DD-HHmmss` using the current timestamp (e.g. `2026-03-03-143022`)
    - Check if `squads/{name}/output/{run_id}/` already exists
      - If it does (sub-second collision), append `-2`, `-3`, etc. until the folder does not exist
    - Create the folder using Bash: `mkdir -p squads/{name}/output/{run_id}`
-   - Store `run_id` in working memory for this run — it will be used for ALL output paths
+   - Store `run_id` in working memory for this run â€” it will be used for ALL output paths
 6. **Initialize state.json**: Create `squads/{name}/state.json` from scratch (see below). State writes are always mandatory.
    - **IMPORTANT**: You MUST write to `squads/{name}/state.json` before every step and after every handoff. This is non-negotiable. Never skip these writes.
    - Create `state.json` from scratch:
-     a. Read `squads/{name}/squad-party.csv` — for each agent row (skip header), extract:
+     a. Read `squads/{name}/squad-party.csv` â€” for each agent row (skip header), extract:
         - `id`: take the `path` column, strip `./agents/` prefix and `.agent.md` suffix
-          (e.g. `./agents/researcher.agent.md` → `researcher`)
+          (e.g. `./agents/researcher.agent.md` â†’ `researcher`)
         - `name`: use the `displayName` column
         - `icon`: use the `icon` column
      b. Assign desk positions by agent order (0-based index):
         - `col = (index % 3) + 1`
         - `row = floor(index / 3) + 1`
-        (index 0 → col:1 row:1, index 1 → col:2 row:1, index 2 → col:3 row:1, index 3 → col:1 row:2, etc.)
-     c. Read `squads/{name}/squad.yaml` — count items in `pipeline.steps` for `total`
+        (index 0 â†’ col:1 row:1, index 1 â†’ col:2 row:1, index 2 â†’ col:3 row:1, index 3 â†’ col:1 row:2, etc.)
+     c. Read `squads/{name}/squad.yaml` â€” count items in `pipeline.steps` for `total`
      d. Write `squads/{name}/state.json` with the Write tool:
         ```json
         {
@@ -87,7 +87,7 @@ Before executing any step that references an agent:
 2. Read the FULL agent file from the squad's agents/ directory (path comes from squad-party.csv)
    - The file uses YAML frontmatter for metadata and markdown body for depth
    - The markdown body contains: Operational Framework, Output Examples, Anti-Patterns, Voice Guidance
-   - All agents are complete `.agent.md` files with full definitions — no overlay resolution needed
+   - All agents are complete `.agent.md` files with full definitions â€” no overlay resolution needed
 3. When executing the step, the agent's full definition informs behavior:
    - Follow the Operational Framework's process steps
    - Use Output Examples as quality reference
@@ -95,8 +95,8 @@ Before executing any step that references an agent:
    - Apply Voice Guidance (vocabulary always/never use, tone rules)
 4. **Inject format context**: Check if the current step's frontmatter contains a `format:` field.
    If present:
-   a. Read `_opensquad/core/best-practices/{format}.md` (e.g., `_opensquad/core/best-practices/instagram-feed.md`)
-      - If the file does not exist → **WARNING**: "Format '{format}' not found in _opensquad/core/best-practices/. Skipping format injection." Continue without format.
+   a. Read `_Equipes_agentes/core/best-practices/{format}.md` (e.g., `_Equipes_agentes/core/best-practices/instagram-feed.md`)
+      - If the file does not exist â†’ **WARNING**: "Format '{format}' not found in _Equipes_agentes/core/best-practices/. Skipping format injection." Continue without format.
    b. Parse the YAML frontmatter to extract the `name` field
    c. Extract the Markdown body (everything after the YAML frontmatter closing `---`)
    d. Append to the agent's context, before skill instructions:
@@ -121,7 +121,7 @@ Before executing any step that references an agent:
 
    The final agent context composition order is:
    ```
-   Agent (.agent.md) → Platform Best Practices → Skill Instructions
+   Agent (.agent.md) â†’ Platform Best Practices â†’ Skill Instructions
    ```
 
 ### Task-Based Agent Execution
@@ -135,7 +135,7 @@ When an agent's `.agent.md` frontmatter contains a `tasks:` field:
 2. **For each task in sequence**:
    a. Read the task file from the agent's directory (e.g., `squads/{squad-name}/agents/{agent}/tasks/{task}.md`)
    b. Construct the execution prompt:
-      - Agent persona + principles (from agent.md — fixed across all tasks)
+      - Agent persona + principles (from agent.md â€” fixed across all tasks)
       - Task description and process (from task file)
       - Task output format (from task file)
       - Task quality criteria and veto conditions (from task file)
@@ -150,7 +150,7 @@ When an agent's `.agent.md` frontmatter contains a `tasks:` field:
 
 4. **Progress reporting**: For inline execution, announce each task:
    ```
-   {icon} {Agent Name} — Task {N}/{total}: {task name}...
+   {icon} {Agent Name} â€” Task {N}/{total}: {task name}...
    ```
 
 5. **Backward compatibility**: If the agent's frontmatter does NOT contain a `tasks:` field,
@@ -160,33 +160,33 @@ When an agent's `.agent.md` frontmatter contains a `tasks:` field:
 
 Before saving any output file in a step, apply these rules to determine the final path:
 
-#### Step 1 — Insert run_id
+#### Step 1 â€” Insert run_id
 
 - If the path starts with `squads/{name}/output/`, insert `{run_id}/` immediately after `output/`
-  - Example: `squads/carousel/output/slides/draft.md` → `squads/carousel/output/2026-03-03-143022/slides/draft.md`
-  - Example: `squads/carousel/output/angles-brief.yaml` → `squads/carousel/output/2026-03-03-143022/angles-brief.yaml`
+  - Example: `squads/carousel/output/slides/draft.md` â†’ `squads/carousel/output/2026-03-03-143022/slides/draft.md`
+  - Example: `squads/carousel/output/angles-brief.yaml` â†’ `squads/carousel/output/2026-03-03-143022/angles-brief.yaml`
 - If the path does NOT start with `squads/{name}/output/`, leave it unchanged
 
-#### Step 2 — Insert version folder
+#### Step 2 â€” Insert version folder
 
 Apply to every path that was transformed in Step 1:
 
 1. Determine the **output group** = the parent directory of the file (after Step 1 transformation)
-   - Example: `squads/carousel/output/2026-03-03-143022/slides/draft.md` → group is `squads/carousel/output/2026-03-03-143022/slides/`
-   - Example: `squads/carousel/output/2026-03-03-143022/angles-brief.yaml` → group is `squads/carousel/output/2026-03-03-143022/`
+   - Example: `squads/carousel/output/2026-03-03-143022/slides/draft.md` â†’ group is `squads/carousel/output/2026-03-03-143022/slides/`
+   - Example: `squads/carousel/output/2026-03-03-143022/angles-brief.yaml` â†’ group is `squads/carousel/output/2026-03-03-143022/`
 
 2. Detect existing versions for this group using Bash:
    ```bash
    ls -1 squads/{name}/output/{run_id}/{relative-group}/ 2>/dev/null | grep -E '^v[0-9]+$' | sort -V | tail -1
    ```
-   - If the command returns a version (e.g. `v2`) → use `v3`
-   (Always increment the highest version found, even if lower versions have gaps — e.g. if `v1` and `v3` exist, use `v4`)
-   - If the command returns nothing (no versions yet) → use `v1`
+   - If the command returns a version (e.g. `v2`) â†’ use `v3`
+   (Always increment the highest version found, even if lower versions have gaps â€” e.g. if `v1` and `v3` exist, use `v4`)
+   - If the command returns nothing (no versions yet) â†’ use `v1`
    (`{relative-group}` is the portion of the group path after `squads/{name}/output/{run_id}/`, e.g. `slides/` or empty string for root-level files)
 
 3. Insert the version folder immediately before the filename:
-   - `squads/carousel/output/2026-03-03-143022/slides/draft.md` → `squads/carousel/output/2026-03-03-143022/slides/v1/draft.md`
-   - `squads/carousel/output/2026-03-03-143022/angles-brief.yaml` → `squads/carousel/output/2026-03-03-143022/v1/angles-brief.yaml`
+   - `squads/carousel/output/2026-03-03-143022/slides/draft.md` â†’ `squads/carousel/output/2026-03-03-143022/slides/v1/draft.md`
+   - `squads/carousel/output/2026-03-03-143022/angles-brief.yaml` â†’ `squads/carousel/output/2026-03-03-143022/v1/angles-brief.yaml`
 
 4. **Cache per group**: within a single step execution, once a version is determined for a group, reuse it for all subsequent files in that same group. Do not re-run the `ls` per file.
    If the same file path is written twice within a step, both writes go to the same versioned path (the second write overwrites the first within that version).
@@ -195,7 +195,7 @@ Apply this transformation consistently for every write in this step.
 
 ### For each pipeline step:
 
-0. **Update dashboard** — MANDATORY. Write `squads/{name}/state.json` using the Write tool. Always write — it is never wrong to update the dashboard. Use this content:
+0. **Update dashboard** â€” MANDATORY. Write `squads/{name}/state.json` using the Write tool. Always write â€” it is never wrong to update the dashboard. Use this content:
    ```json
    {
      "squad": "{squad code from squad.yaml}",
@@ -212,11 +212,11 @@ Apply this transformation consistently for every write in this step.
          "icon": "{agent icon}",
          "status": "{working if this is the current step's agent, done if already completed, idle otherwise}",
          "deliverTo": null,
-         "desk": {preserve existing desk positions from state.json — do not change col/row}
+         "desk": {preserve existing desk positions from state.json â€” do not change col/row}
        }
      ],
      "handoff": {preserve existing handoff object, or null if this is the first step},
-     "startedAt": "{ISO timestamp — set on the first step only, then preserve from existing state.json on subsequent steps}",
+     "startedAt": "{ISO timestamp â€” set on the first step only, then preserve from existing state.json on subsequent steps}",
      "updatedAt": "{ISO timestamp now}"
    }
    ```
@@ -225,13 +225,13 @@ Apply this transformation consistently for every write in this step.
 2. **Check execution mode** from the step's frontmatter:
 
 #### If `execution: subagent`
-- Inform user: `🔍 {Agent Name} is working in the background...`
+- Inform user: `ðŸ” {Agent Name} is working in the background...`
 - Read the step's `model_tier` frontmatter field (if present).
   Valid values: `fast` or `powerful`. If absent or any other value: default to `powerful`.
 - Use the Task tool to dispatch the step as a subagent:
   - If `model_tier: fast`: use the fastest/lightest model available in the current environment.
-    You know your own environment — use the lightest model you can dispatch:
-    Claude Code → `model: haiku` | Antigravity → Gemini Flash | Codex → smallest available model
+    You know your own environment â€” use the lightest model you can dispatch:
+    Claude Code â†’ `model: haiku` | Antigravity â†’ Gemini Flash | Codex â†’ smallest available model
   - If `model_tier: powerful` or absent/invalid: use the default model (no model override needed)
 - In the Task prompt, include:
   - The full agent persona from the party CSV
@@ -244,7 +244,7 @@ Apply this transformation consistently for every write in this step.
   - The path to save output
 - Wait for the subagent to complete
 - Read the output file to verify it was created
-- Inform user: `✓ {Agent Name} completed`
+- Inform user: `âœ“ {Agent Name} completed`
 
 #### If `execution: inline`
 - Switch to the agent's persona (read from party CSV)
@@ -265,7 +265,7 @@ Apply this transformation consistently for every write in this step.
   # Research Focus
 
   **Topic:** {user's typed topic}
-  **Time Range:** {selected time range label, e.g., "Últimos 7 dias"}
+  **Time Range:** {selected time range label, e.g., "Ãšltimos 7 dias"}
   **Date:** {today's date in YYYY-MM-DD format}
   ```
   This file is the `inputFile` for the researcher step that follows.
@@ -279,7 +279,7 @@ After an agent completes a step (before moving to the next step):
    - Read the output that was just produced
    - Check each condition (e.g., "slides exceed 30 words", "no CTA", "missing sources")
 3. If ANY veto condition is triggered:
-   - Inform user: "⚠️ {Agent Name}'s output triggered a veto: {condition}"
+   - Inform user: "âš ï¸ {Agent Name}'s output triggered a veto: {condition}"
    - Ask the agent to fix the specific issue (re-execute with targeted correction)
    - Maximum 2 veto fix attempts per step
    - After 2 failed attempts, present to user for manual decision
@@ -300,7 +300,7 @@ When a step has `on_reject: {step-id}`:
 
 After a step completes output and there IS a next step (MANDATORY):
 
-1. **Write delivering state** — Write `squads/{name}/state.json` with:
+1. **Write delivering state** â€” Write `squads/{name}/state.json` with:
    - Current step's agent: `"status": "delivering"`, `"deliverTo": "{next step's agent id}"`
    - Next step's agent: `"status": "idle"`
    - All other agents unchanged
@@ -316,12 +316,12 @@ After a step completes output and there IS a next step (MANDATORY):
      ```
    - `"updatedAt"`: now
 
-2. **Wait for animation** — Run via Bash tool:
+2. **Wait for animation** â€” Run via Bash tool:
    ```bash
    sleep 3
    ```
 
-3. **Write working state** — Write `squads/{name}/state.json` again with:
+3. **Write working state** â€” Write `squads/{name}/state.json` again with:
    - Current agent: `"status": "done"`, `"deliverTo": null`
    - Next agent: `"status": "working"`
    - Keep the `"handoff"` object from step 1 unchanged
@@ -330,8 +330,8 @@ After a step completes output and there IS a next step (MANDATORY):
 ### After Pipeline Completion
 
 1. Save final output to `squads/{name}/output/{run_id}/{filename}.md`
-   (The run folder was created during initialization — no separate date subfolder needed)
-1b. **Update dashboard** — MANDATORY. Write `squads/{name}/state.json` with:
+   (The run folder was created during initialization â€” no separate date subfolder needed)
+1b. **Update dashboard** â€” MANDATORY. Write `squads/{name}/state.json` with:
     - `"status": "completed"`
     - All agents: `"status": "done"`, `"deliverTo": null`
     - `"updatedAt"`: now
@@ -354,33 +354,34 @@ This ensures the squad no longer appears as active in the centralized dashboard.
    - Review cycle count and outcome
 3. Present completion summary:
    ```
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   ✅ Pipeline complete!
-   📁 Run folder: squads/{name}/output/{run_id}/
-   📄 Output saved to: {output path}
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+   âœ… Pipeline complete!
+   ðŸ“ Run folder: squads/{name}/output/{run_id}/
+   ðŸ“„ Output saved to: {output path}
+   â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
    What would you like to do?
-   ● Run again (new topic)
-   ○ Edit this content
-   ○ Back to menu
+   â— Run again (new topic)
+   â—‹ Edit this content
+   â—‹ Back to menu
    ```
 
 ## Error Handling
 
 - If a subagent fails, retry once. If it fails again, inform the user and offer to skip the step or abort.
-- If a step file is missing, inform the user and suggest running `/opensquad edit {squad}` to fix.
+- If a step file is missing, inform the user and suggest running `/Equipes_agentes edit {squad}` to fix.
 - If company.md is empty, stop and redirect to onboarding.
 - Never continue past a checkpoint without user input.
 
 ## Pipeline State
 
 Track pipeline state in memory during execution:
-- Run ID (run_id) — the output subfolder name for this execution
+- Run ID (run_id) â€” the output subfolder name for this execution
 - Current step index
 - Outputs from each completed step (file paths)
 - User choices at checkpoints
 - Review cycle count
 - Start time
 
-This state does NOT persist to disk — it exists only during the current run.
+This state does NOT persist to disk â€” it exists only during the current run.
+
