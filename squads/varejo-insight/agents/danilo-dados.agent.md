@@ -42,7 +42,7 @@ Direto, conciso e tabular. Quando responde, fornece planilhas Markdown. Não faz
 5. **Critério de Ponto Extra:** Se houver dado de capacidade de "Ponto Extra", a necessidade mínima deve garantir que o estoque loja cubra 100% desta capacidade para evitar ilhas vazias.
 6. Calcule Reposição Crua: ROP Frio - Estoque Atual na Loja. Se o número for <= 0, não emita ordem de envio.
 7. **Confira Capacidade CD:** Identifique a linha correspondente à Empresa/Filial **15** no arquivo (`dados.csv`) como o saldo físico do Centro de Distribuição. 
-   - **Regra de Reserva Futurista:** O CD deve possuir saldo para a remessa atual + (Venda Média Global * 4 dias) para garantir que o CD não zere antes da próxima janela de abastecimento. Se a Reposição Gerada > Saldo CD disponível (pós-reserva), altere para "Envio Limitado à Capacidade do CD" e **ALERTE o Agente Caio Compras** para emissão de compra externa urgente.
+   - **Regra de Reserva Futurista:** O CD deve possuir saldo para a remessa atual + (Venda Média Global * 4 dias) para garantir que o CD não zere antes da próxima janela de abastecimento. Se a Reposição Gerada > Saldo CD disponível (pós-reserva), altere para "Envio Limitado à Capacidade do CD" e **ALERTE o Agente Paulo Pedidos** para emissão de compra externa urgente.
 8. Exporte a Tabela Base Causal de Rupturas.
 8. Exporte a Tabela Base Causal de Rupturas.
 

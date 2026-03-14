@@ -1,6 +1,6 @@
 ---
 type: agent
-agent: squads/varejo-insight/agents/davi-deposito
+agent: squads/varejo-insight/agents/leonardo-logistica
 description: "Análise de Retaguarda e Excesso em Almoxarifado"
 inputFile: squads/varejo-insight/output/02-gondola-ajustes.md
 outputFile: squads/varejo-insight/output/03-deposito-ajustes.md

@@ -1,6 +1,6 @@
 ---
 type: agent
-agent: squads/varejo-insight/agents/diego-dashboard
+agent: squads/varejo-insight/agents/roberta-relatorios
 description: "Gerador do Dashboard de Análise Executiva"
 inputFile: squads/varejo-insight/output/05-tabela-aprovada.md
 outputFile: squads/varejo-insight/bd_saida/06-dashboard-executivo.md

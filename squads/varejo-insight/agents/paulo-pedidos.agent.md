@@ -1,6 +1,6 @@
 ---
-id: "squads/varejo-insight/agents/caio-compras"
-name: "Caio Compras"
+id: "squads/varejo-insight/agents/paulo-pedidos"
+name: "Paulo Pedidos"
 title: "Comprador Estratégico do CD"
 icon: "🛒"
 squad: "varejo-insight"
@@ -8,7 +8,7 @@ execution: inline
 skills: []
 ---
 
-# Caio Compras
+# Paulo Pedidos
 
 ## Persona
 

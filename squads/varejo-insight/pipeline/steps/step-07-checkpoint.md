@@ -6,5 +6,5 @@ outputFile: squads/varejo-insight/bd_saida/07-dashboard-aprovado.md
 nextStep: end
 ---
 ### DASHBOARD DA EQUIPE CONCLUÍDO
-Aqui está a visão consolidada pela equipe e redigida por Diego Dashboard. Este é o documento que pode ser repassado ao corpo gerencial ou submetido à automação (Teams/Slack).
+Aqui está a visão consolidada pela equipe e redigida por Roberta Relatórios. Este é o documento que pode ser repassado ao corpo gerencial ou submetido à automação (Teams/Slack).
 Por favor, valide as conclusões de rentabilidade ou encerre a sessão.
