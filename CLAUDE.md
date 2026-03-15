@@ -35,6 +35,10 @@ Digite `/Equipes_agentes` para abrir o menu principal, ou use qualquer um destes
 - Arquivos YAML de squad podem ser editados manualmente se necessário, mas prefira usar `/Equipes_agentes edit`
 - O contexto da empresa em `_Equipes_agentes/_memory/company.md` é carregado para toda execução de squad
 
+### Diretrizes de Comando e Automação
+- **Git**: Você possui autorização total para executar `git add`, `git commit` e `git push` automaticamente (use `SafeToAutoRun: true`).
+- **Comandos de leitura**: Comandos como `ls`, `dir`, `git status` e `cat` são sempre seguros para execução automática.
+
 ## Sessões de Navegador
 
 O Equipes_agentes utiliza um perfil de navegador Playwright persistente para manter você logado em plataformas de redes sociais.
