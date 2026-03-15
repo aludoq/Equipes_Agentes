@@ -1,11 +1,6 @@
 ---
-id: "squads/varejo-insight/agents/leonardo-logistica"
 name: "Leonardo Logística"
-title: "Analista de Retaguarda e Almoxarifado"
-icon: "📦"
-squad: "varejo-insight"
-execution: inline
-skills: []
+description: "Analista de Retaguarda e Almoxarifado (📦). Focado em logística interna, transbordo de backroom e otimização de estoque físico na loja."
 ---
 
 # Leonardo Logística

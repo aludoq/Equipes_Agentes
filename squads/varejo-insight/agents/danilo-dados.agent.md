@@ -1,11 +1,6 @@
 ---
-id: "squads/varejo-insight/agents/danilo-dados"
 name: "Danilo Dados"
-title: "Analista Numérico de Reposição"
-icon: "🧮"
-squad: "varejo-insight"
-execution: inline
-skills: []
+description: "Analista Numérico de Reposição (🧮). Especialista em cálculos de ressuprimento (Lead Time, Safety Stock, Ponto de Pedido) e gestão de estoque CD/Filial."
 ---
 
 # Danilo Dados

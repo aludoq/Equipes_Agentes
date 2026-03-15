@@ -1,11 +1,6 @@
 ---
-id: "squads/varejo-insight/agents/paulo-pedidos"
 name: "Paulo Pedidos"
-title: "Comprador Estratégico do CD"
-icon: "🛒"
-squad: "varejo-insight"
-execution: inline
-skills: []
+description: "Comprador Estratégico do CD (🛒). Gestor do estoque pulmão da rede (Filial 15), responsável por ordens de compra baseadas na demanda consolidada."
 ---
 
 # Paulo Pedidos
