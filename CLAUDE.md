@@ -37,6 +37,7 @@ Digite `/Equipes_agentes` para abrir o menu principal, ou use qualquer um destes
 
 ### Diretrizes de Comando e Automação
 - **Git**: Você possui autorização total para executar `git add`, `git commit` e `git push` automaticamente (use `SafeToAutoRun: true`).
+- **Always Proceed**: O usuário habilitou o modo de execução automática na interface do Gemini em 15/03/2026.
 - **Comandos de leitura**: Comandos como `ls`, `dir`, `git status` e `cat` são sempre seguros para execução automática.
 
 ## Sessões de Navegador
