@@ -43,6 +43,16 @@ class ReuniaoEquipeApp:
         self.listbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
         self.listbox.bind("<<ListboxSelect>>", self.on_agent_select)
 
+        # Botões da Sidebar
+        self.btn_frame = tk.Frame(self.sidebar_frame, bg=self.sidebar_color, pady=10)
+        self.btn_frame.pack(fill=tk.X)
+
+        self.add_btn = tk.Button(self.btn_frame, text="+ NOVO AGENTE", bg=self.accent_color, fg="#11111b", font=("Segoe UI", 9, "bold"), relief=tk.FLAT, padx=10, command=self.add_agent_dialog)
+        self.add_btn.pack(side=tk.TOP, fill=tk.X, padx=15, pady=5)
+
+        self.del_btn = tk.Button(self.btn_frame, text="🗑 EXCLUIR SELECIONADO", bg="#f38ba8", fg="#11111b", font=("Segoe UI", 9, "bold"), relief=tk.FLAT, padx=10, command=self.delete_agent)
+        self.del_btn.pack(side=tk.TOP, fill=tk.X, padx=15, pady=5)
+
         # Editor Area
         self.editor_frame = tk.Frame(self.paned_window, bg=self.bg_color)
         self.paned_window.add(self.editor_frame, weight=4)
@@ -62,6 +72,106 @@ class ReuniaoEquipeApp:
         self.notebook.pack(fill=tk.BOTH, expand=True, padx=15, pady=(0, 15))
         
         self.section_texts = {} # {section_name: text_widget}
+
+    def add_agent_dialog(self):
+        """Abre uma janela de diálogo para criação de um novo agente com campos obrigatórios."""
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Criar Novo Agente")
+        dialog.geometry("600x650")
+        dialog.configure(bg=self.bg_color)
+        dialog.transient(self.root)
+        dialog.grab_set()
+
+        fields = [
+            ("Nome do Agente", "Ex: Francisco Fornecedor"),
+            ("Descrição Curta", "Resumo da função do agente"),
+            ("Persona", "Role, Identity, Communication Style"),
+            ("Principles", "Valores e diretrizes"),
+            ("Operational Framework", "Processos e critérios de decisão")
+        ]
+        
+        entries = {}
+        
+        for label, hint in fields:
+            frame = tk.Frame(dialog, bg=self.bg_color, pady=5)
+            frame.pack(fill=tk.X, padx=20)
+            
+            tk.Label(frame, text=label, bg=self.bg_color, fg=self.accent_color, font=("Segoe UI", 10, "bold")).pack(anchor=tk.W)
+            
+            if label in ["Nome do Agente", "Descrição Curta"]:
+                entry = tk.Entry(frame, bg="#11111b", fg=self.text_color, insertbackground="white", font=("Segoe UI", 10), borderwidth=0)
+                entry.pack(fill=tk.X, pady=5)
+                entries[label] = entry
+            else:
+                txt = scrolledtext.ScrolledText(frame, bg="#11111b", fg=self.text_color, insertbackground="white", font=("Segoe UI", 10), borderwidth=0, height=6)
+                txt.pack(fill=tk.X, pady=5)
+                entries[label] = txt
+
+        def create():
+            # Validação
+            data = {k: (v.get() if isinstance(v, tk.Entry) else v.get(1.0, tk.END).strip()) for k, v in entries.items()}
+            if not all(data.values()):
+                messagebox.showwarning("Campos Obrigatórios", "Todos os campos devem ser preenchidos para compor o agente!")
+                return
+            
+            # Formatar Nome para arquivo
+            file_name = data["Nome do Agente"].lower().replace(" ", "-") + ".agent.md"
+            # Salvar na pasta root por padrão (ou permitir seleção se necessário, mas aqui usaremos a base do squad se detectado)
+            target_path = os.path.join(self.base_dir, file_name)
+            
+            content = f"""---
+name: "{data['Nome do Agente']}"
+description: "{data['Descrição Curta']}"
+---
+
+# {data['Nome do Agente']}
+
+## Persona
+
+{data['Persona']}
+
+## Principles
+
+{data['Principles']}
+
+## Operational Framework
+
+{data['Operational Framework']}
+"""
+            try:
+                with open(target_path, 'w', encoding='utf-8') as f:
+                    f.write(content.strip() + "\n")
+                messagebox.showinfo("Sucesso", f"Agente '{file_name}' criado com sucesso!")
+                dialog.destroy()
+                self.load_agents() # Recarregar a lista
+            except Exception as e:
+                messagebox.showerror("Erro", f"Erro ao criar arquivo: {e}")
+
+        tk.Button(dialog, text="CRIAR AGENTE", bg=self.save_button_color, fg="#11111b", font=("Segoe UI", 10, "bold"), relief=tk.FLAT, command=create, pady=10).pack(fill=tk.X, padx=20, pady=20)
+
+    def delete_agent(self):
+        """Remove o arquivo do agente selecionado após confirmação do usuário."""
+        selection = self.listbox.curselection()
+        if not selection:
+            messagebox.showwarning("Aviso", "Selecione um agente para excluir.")
+            return
+        
+        display_name = self.listbox.get(selection[0])
+        file_path = self.agents[display_name]
+        
+        confirm = messagebox.askyesno("Confirmar Exclusão", f"Tem certeza que deseja excluir o agente '{display_name}'?\nEsta ação não pode ser desfeita.")
+        if confirm:
+            try:
+                os.remove(file_path)
+                messagebox.showinfo("Sucesso", f"Agente '{os.path.basename(file_path)}' excluído com sucesso!")
+                self.load_agents()
+                # Limpar editor
+                for tab in self.notebook.tabs():
+                    self.notebook.forget(tab)
+                self.label_current.config(text="Selecione um agente para editar", font=("Segoe UI", 11, "italic"))
+                self.current_file = None
+            except Exception as e:
+                messagebox.showerror("Erro", f"Erro ao excluir arquivo: {e}")
 
     def parse_agent_file(self, content):
         """ Divide o conteúdo do arquivo .agent.md em seções baseadas em headers Markdown. """
@@ -189,6 +299,11 @@ class ReuniaoEquipeApp:
             messagebox.showinfo("Sucesso", f"Agente '{os.path.basename(self.current_file)}' atualizado com sucesso!")
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao salvar: {e}")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ReuniaoEquipeApp(root)
+    root.mainloop()
 
 if __name__ == "__main__":
     root = tk.Tk()
