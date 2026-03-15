@@ -22,8 +22,8 @@ Esta skill centraliza o conhecimento sobre a estrutura de dados e regras de neg�
 ## Glossário de Negócio (Sempre Consultar)
 
 ### Unidades e Filiais
-- **Filial 015**: Referida como **CD (Centro de Distribuição)**. É o hub central que abastece as demais lojas.
-- **Filiais 001 a 014**: Lojas físicas de venda direta ao consumidor.
+- **Filial / filial / Empresa / empresa 015**: Referida como **CD (Centro de Distribuição)**. É o hub central que abastece as demais lojas.
+- **Filiais / Empresas 001 a 014**: Lojas físicas de venda direta ao consumidor.
 
 ### Termos Técnicos
 - **Giro Diário**: Média de vendas por dia.
