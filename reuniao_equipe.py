@@ -27,7 +27,7 @@ class ReuniaoEquipeApp:
         self.load_agents()
 
     def setup_ui(self):
-        """Inicializa a interface gráfica do usuário (GUI) com layout de painel dividido."""
+        """Inicializa a interface gráfica do usuário (GUI) com layout de painel dividido e abas para edição."""
         # Layout principal: Sidebar (esquerda) e Editor (direita)
         self.paned_window = ttk.Panedwindow(self.root, orient=tk.HORIZONTAL)
         self.paned_window.pack(fill=tk.BOTH, expand=True)
@@ -57,9 +57,62 @@ class ReuniaoEquipeApp:
         self.save_btn = tk.Button(self.header_frame, text="SALVAR ALTERAÇÕES", bg=self.save_button_color, fg="#11111b", font=("Segoe UI", 9, "bold"), relief=tk.FLAT, padx=15, command=self.save_content)
         self.save_btn.pack(side=tk.RIGHT, padx=15)
 
-        # Editor de Texto
-        self.text_area = scrolledtext.ScrolledText(self.editor_frame, bg="#11111b", fg=self.text_color, insertbackground="white", font=("Consolas", 11), borderwidth=0, padx=10, pady=10)
-        self.text_area.pack(fill=tk.BOTH, expand=True, padx=15, pady=(0, 15))
+        # Editor de Texto - Agora usando Notebook (Abas)
+        self.notebook = ttk.Notebook(self.editor_frame)
+        self.notebook.pack(fill=tk.BOTH, expand=True, padx=15, pady=(0, 15))
+        
+        self.section_texts = {} # {section_name: text_widget}
+
+    def parse_agent_file(self, content):
+        """ Divide o conteúdo do arquivo .agent.md em seções baseadas em headers Markdown. """
+        sections = {"Configuração (YAML)": ""}
+        
+        # Extrair YAML Frontmatter
+        import re
+        yaml_match = re.match(r'^---\n(.*?)\n---\n?', content, re.DOTALL)
+        if yaml_match:
+            sections["Configuração (YAML)"] = yaml_match.group(1).strip()
+            rest = content[yaml_match.end():].strip()
+        else:
+            rest = content.strip()
+            
+        # Dividir por headers ##
+        parts = re.split(r'\n(## .*)', "\n" + rest)
+        
+        # O primeiro elemento pode ser o título principal # Nome
+        if parts[0].strip():
+            sections["Cabeçalho"] = parts[0].strip()
+            
+        # Percorrer partes divididas
+        current_header = None
+        for i in range(1, len(parts)):
+            if parts[i].startswith("## "):
+                current_header = parts[i].replace("## ", "").strip()
+            elif current_header:
+                sections[current_header] = parts[i].strip()
+                
+        return sections
+
+    def create_tabs_for_sections(self, sections):
+        """ Cria as abas dinamicamente no Notebook para cada seção do agente. """
+        # Limpar abas existentes
+        for tab in self.notebook.tabs():
+            self.notebook.forget(tab)
+        self.section_texts = {}
+        
+        for section_name, content in sections.items():
+            frame = tk.Frame(self.notebook, bg=self.bg_color)
+            self.notebook.add(frame, text=section_name)
+            
+            text_area = scrolledtext.ScrolledText(frame, bg="#11111b", fg=self.text_color, insertbackground="white", font=("Consolas", 11), borderwidth=0, padx=10, pady=10)
+            text_area.pack(fill=tk.BOTH, expand=True)
+            text_area.insert(tk.INSERT, content)
+            
+            # Impedir edição da Configuração (YAML) para iniciantes (ou opcional)
+            # if section_name == "Configuração (YAML)":
+            #     text_area.config(state=tk.DISABLED) # Se quiser travar
+                
+            self.section_texts[section_name] = text_area
 
     def load_agents(self):
         """Busca recursivamente por arquivos .agent.md"""
@@ -98,21 +151,41 @@ class ReuniaoEquipeApp:
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-                self.text_area.delete(1.0, tk.END)
-                self.text_area.insert(tk.INSERT, content)
+                sections = self.parse_agent_file(content)
+                self.create_tabs_for_sections(sections)
                 self.label_current.config(text=f"Editando: {os.path.basename(file_path)}", font=("Segoe UI", 11, "bold"))
         except Exception as e:
             messagebox.showerror("Erro", f"Não foi possível abrir o arquivo: {e}")
 
     def save_content(self):
+        """Reconstrói o arquivo original a partir das seções editadas e salva no disco."""
         if not self.current_file:
             messagebox.showwarning("Aviso", "Selecione um agente primeiro.")
             return
         
-        content = self.text_area.get(1.0, tk.END).strip()
         try:
+            # Recompor o conteúdo
+            content = ""
+            
+            # YAML Frontmatter
+            if "Configuração (YAML)" in self.section_texts:
+                yaml_content = self.section_texts["Configuração (YAML)"].get(1.0, tk.END).strip()
+                content += f"---\n{yaml_content}\n---\n\n"
+            
+            # Cabeçalho (geralmente # Nome do Agente)
+            if "Cabeçalho" in self.section_texts:
+                header_content = self.section_texts["Cabeçalho"].get(1.0, tk.END).strip()
+                content += f"{header_content}\n\n"
+            
+            # Seções ##
+            for section_name, text_widget in self.section_texts.items():
+                if section_name in ["Configuração (YAML)", "Cabeçalho"]:
+                    continue
+                section_content = text_widget.get(1.0, tk.END).strip()
+                content += f"## {section_name}\n\n{section_content}\n\n"
+            
             with open(self.current_file, 'w', encoding='utf-8') as f:
-                f.write(content)
+                f.write(content.strip() + "\n")
             messagebox.showinfo("Sucesso", f"Agente '{os.path.basename(self.current_file)}' atualizado com sucesso!")
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao salvar: {e}")
