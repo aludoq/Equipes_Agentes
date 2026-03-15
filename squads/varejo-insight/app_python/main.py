@@ -19,11 +19,12 @@ st.set_page_config(
 # Estilização CSS Extra para Streamlit
 st.markdown("""
     <style>
-    .main { background-color: #0b0c10; color: #e0e0e0; }
+    .main { background-color: #0b1120; color: #e0e0e0; }
     h1, h2, h3 { color: #89b4fa !important; }
     .stButton>button { width: 100%; border-radius: 8px; font-weight: bold; background: linear-gradient(135deg, #89b4fa, #3B82F6); color: white; border: none;}
     .report-card { background: #1a1a24; padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
     .metric-card { background: #11111b; padding: 15px; border-radius: 8px; border-left: 5px solid #89b4fa; }
+    .chart-container { background: #1a1a24; padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
     </style>
 """, unsafe_allow_html=True)
 
@@ -77,33 +78,62 @@ if page == "📥 1. Intake de Dados (Entradas)":
 # TELA 2: MESA DA DIRETORIA (Resultados)
 # ----------------------------------------------------------------------------------
 elif page == "📊 2. Mesa da Diretoria (Resultados)":
-    st.header("📊 Mesa da Diretoria - Apuração de Resultados")
-    st.write("Acompanhe o Sumário Executivo aprovado da Squad e baixe as bases processadas para o seu ERP.")
+    st.header("📊 Mesa da Diretoria - Apuração e Visualização")
+    st.write("Visualização consolidada de indicadores e gráficos de faturamento e reposição sugerida.")
     
-    # --- SEÇÃO DE INDICADORES (APURAR RESULTADOS) ---
-    st.subheader("📈 Indicadores Operacionais")
+    # --- PROCESSAMENTO DE DADOS PARA GRÁFICOS ---
+    all_data = []
     try:
-        csv_files = [f for f in os.listdir(BD_SAIDA) if f.endswith('.csv')]
-        if csv_files:
-            cols = st.columns(len(csv_files) if len(csv_files) <= 3 else 3)
-            for idx, f_csv in enumerate(csv_files):
+        if os.path.exists(BD_SAIDA):
+            csv_files = [f for f in os.listdir(BD_SAIDA) if f.endswith('.csv')]
+            for f_csv in csv_files:
                 path_csv = os.path.join(BD_SAIDA, f_csv)
-                df = pd.read_csv(path_csv, sep=';', encoding='utf-8')
+                df_temp = pd.read_csv(path_csv, sep=';', encoding='utf-8')
                 
-                with cols[idx % 3]:
-                    st.markdown(f"<div class='metric-card'>", unsafe_allow_html=True)
-                    st.markdown(f"**Arquivo:** `{f_csv}`")
-                    st.markdown(f"**Itens Sugeridos:** {len(df)}")
-                    if 'Sugestão' in df.columns:
-                        st.markdown(f"**Volume Total:** {int(df['Sugestão'].sum())}")
-                    elif 'Sugestão (Caixas)' in df.columns:
-                        st.markdown(f"**Cx Totais:** {int(df['Sugestão (Caixas)'].sum())}")
-                    st.markdown("</div>", unsafe_allow_html=True)
-                    st.write("")
-        else:
-            st.info("Aguardando processamento de dados para gerar indicadores.")
+                # Normalização de colunas
+                if 'Sugestão (Caixas)' in df_temp.columns:
+                    df_temp['Qtd Sugerida'] = df_temp['Sugestão (Caixas)']
+                elif 'Sugestão' in df_temp.columns:
+                    df_temp['Qtd Sugerida'] = df_temp['Sugestão']
+                
+                if 'Qtd Sugerida' in df_temp.columns:
+                    all_data.append(df_temp)
     except Exception as e:
-        st.warning(f"Não foi possível apurar resultados detalhados: {e}")
+        st.error(f"Erro ao processar dados para gráficos: {e}")
+
+    if all_data:
+        full_df = pd.concat(all_data, ignore_index=True)
+        
+        # --- INDICADORES ---
+        st.subheader("📈 Indicadores Operacionais")
+        m1, m2, m3 = st.columns(3)
+        with m1:
+            st.metric("Total de Itens Sugeridos", len(full_df))
+        with m2:
+            st.metric("Volume Total (Unidades/Cx)", int(full_df['Qtd Sugerida'].sum()))
+        with m3:
+            st.metric("Filiais Atendidas", full_df['filial'].nunique())
+            
+        st.markdown("---")
+        
+        # --- GRÁFICOS ---
+        c1, c2 = st.columns(2)
+        
+        with c1:
+            st.subheader("📍 Sugestão por Filial")
+            chart_data = full_df.groupby('filial')['Qtd Sugerida'].sum().reset_index()
+            chart_data['filial'] = chart_data['filial'].astype(str)
+            st.bar_chart(chart_data.set_index('filial'), color="#89b4fa")
+            st.caption("Volume de reposição distribuído por ponto de venda (PDV) e CD.")
+
+        with c2:
+            st.subheader("📦 Top Itens Solicitados")
+            top_itens = full_df.groupby('descrição')['Qtd Sugerida'].sum().sort_values(ascending=False).head(10)
+            st.bar_chart(top_itens, color="#a6e3a1", horizontal=True)
+            st.caption("Os 10 itens com maior volume de sugestão em toda a squad.")
+            
+    else:
+        st.info("Aguardando geração de dados (BD_SAIDA) para apresentar indicadores visuais.")
 
     st.markdown("---")
     
@@ -117,7 +147,6 @@ elif page == "📊 2. Mesa da Diretoria (Resultados)":
                 
             arquivos_saida = [f for f in os.listdir(BD_SAIDA) if f.endswith('.md')]
             if arquivos_saida:
-                # Pega o mais recente por nome/data se houver prefixo numérico
                 ultimo_md = sorted(arquivos_saida)[-1]
                 path_md = os.path.join(BD_SAIDA, ultimo_md)
                 with open(path_md, "r", encoding="utf-8") as f_md:
@@ -127,13 +156,13 @@ elif page == "📊 2. Mesa da Diretoria (Resultados)":
                     st.markdown(f_md.read())
                     st.markdown(f"</div>", unsafe_allow_html=True)
             else:
-                st.info("Nenhum Resumo `.md` encontrado. O pipeline foi executado?")
+                st.info("Nenhum Resumo `.md` encontrado.")
         except Exception as e:
              st.error(f"Erro ao ler relatórios: {e}")
 
     with col2:
         st.subheader("💾 Carga para o ERP (Download)")
-        st.write("Baixe os arquivos CSV preparados para injeção no sistema raiz.")
+        st.write("Arquivos CSV preparados para injeção no sistema raiz.")
         
         try:
             arquivos_csv = [f for f in os.listdir(BD_SAIDA) if f.endswith('.csv')]
