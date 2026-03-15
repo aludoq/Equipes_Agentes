@@ -10,13 +10,17 @@ npx Equipes_agentes install <nome-da-skill>
 
 | Skill | Tipo | Descrição | Variáveis de Amb. | Instalação |
 |-------|------|-------------|----------|---------|
-_Nenhuma skill disponível no momento._
+| [gemini-api-dev](./gemini-api-dev/) | prompt | Desenvolvimento geral com a API Gemini (Python, JS, Go, Java). | _(padrão)_ | `npx Equipes_agentes install gemini-api-dev` |
+| [vertex-ai-api-dev](./vertex-ai-api-dev/) | prompt | Guia o uso da API Gemini no Google Cloud Vertex AI. | `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION` | `npx Equipes_agentes install vertex-ai-api-dev` |
+| [gemini-live-api-dev](./gemini-live-api-dev/) | prompt | Streaming bidirecional em tempo real (Voz/Vídeo) com Gemini Live. | _(padrão)_ | `npx Equipes_agentes install gemini-live-api-dev` |
+| [gemini-interactions-api](./gemini-interactions-api/) | prompt | API unificada para chat, agentes e tarefas em segundo plano (Deep Research). | _(padrão)_ | `npx Equipes_agentes install gemini-interactions-api` |
 
 ## Tipos de Skill
 
 - **mcp** -- Conecta a um servidor MCP externo (transporte stdio ou HTTP)
 - **script** -- Executa um script local (Node.js, Python, etc.)
 - **hybrid** -- Combina acesso a servidor MCP com capacidades de script local
+- **prompt** -- Instruções comportamentais puras para os agentes
 
 ## Estrutura de Diretórios
 
@@ -24,6 +28,14 @@ Cada skill vive em sua própria pasta com um arquivo `SKILL.md`:
 
 ```
 skills/
+  gemini-api-dev/
+    SKILL.md
+  vertex-ai-api-dev/
+    SKILL.md
+  gemini-live-api-dev/
+    SKILL.md
+  gemini-interactions-api/
+    SKILL.md
 ```
 
 O arquivo `SKILL.md` contém frontmatter YAML (nome, tipo, versão, configuração de MCP/script, variáveis de ambiente, categorias) e um corpo Markdown com instruções de uso e operações disponíveis.
