@@ -22,8 +22,9 @@ Esta skill centraliza o conhecimento sobre a estrutura de dados e regras de neg�
 ## Glossário de Negócio (Sempre Consultar)
 
 ### Unidades e Filiais
-- **Filial / filial / Empresa / empresa 015**: Referida como **CD (Centro de Distribuição)**. É o hub central que abastece as demais lojas.
-- **Filiais / Empresas 001 a 014**: Lojas físicas de venda direta ao consumidor.
+- **Pontos de Venda (PDV)**: Filiais/Empresas **001, 002, 003, 004, 005, 006, 007, 008, 011, 012, 013, 014, 017, 018**.
+- **Centros de Distribuição (CD)**: Filiais/Empresas **015, 016, 050**.
+- **Empresas Virtuais (Não Operantes)**: Qualquer código ou nomenclatura que não conste na lista acima deve ser tratada como empresa virtual não operante.
 
 ### Termos Técnicos
 - **Giro Diário**: Média de vendas por dia.
