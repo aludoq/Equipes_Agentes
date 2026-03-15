@@ -11,6 +11,7 @@ npx Equipes_agentes install <nome-da-skill>
 | Skill | Tipo | Descrição | Variáveis de Amb. | Instalação |
 |-------|------|-------------|----------|---------|
 | [gemini-api-dev](./gemini-api-dev/) | prompt | Desenvolvimento geral com a API Gemini (Python, JS, Go, Java). | _(padrão)_ | `npx Equipes_agentes install gemini-api-dev` |
+| [governanca-dados-varejo](./governanca-dados-varejo/) | hybrid | Governança, limpeza e glossário de negócio (Filial 015 = CD). | _(padrão)_ | `npx Equipes_agentes install governanca-dados-varejo` |
 | [vertex-ai-api-dev](./vertex-ai-api-dev/) | prompt | Guia o uso da API Gemini no Google Cloud Vertex AI. | `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION` | `npx Equipes_agentes install vertex-ai-api-dev` |
 | [gemini-live-api-dev](./gemini-live-api-dev/) | prompt | Streaming bidirecional em tempo real (Voz/Vídeo) com Gemini Live. | _(padrão)_ | `npx Equipes_agentes install gemini-live-api-dev` |
 | [gemini-interactions-api](./gemini-interactions-api/) | prompt | API unificada para chat, agentes e tarefas em segundo plano (Deep Research). | _(padrão)_ | `npx Equipes_agentes install gemini-interactions-api` |
