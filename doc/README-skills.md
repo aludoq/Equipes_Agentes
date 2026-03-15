@@ -1,42 +1,36 @@
-﻿# Equipes_agentes Skill Catalog
+# Catálogo de Skills Equipes_agentes
 
-Browse available skills for your squads. Install any skill with:
+Explore as skills disponíveis para suas squads. Instale qualquer skill com:
 
 ```bash
-npx Equipes_agentes install <skill-name>
+npx Equipes_agentes install <nome-da-skill>
 ```
 
-## Available Skills
+## Skills Disponíveis
 
-| Skill | Type | Description | Env Vars | Install |
+| Skill | Tipo | Descrição | Variáveis de Amb. | Instalação |
 |-------|------|-------------|----------|---------|
-| [image-fetcher](./image-fetcher/) | hybrid | Acquire visual assets via web search, live screenshots (Playwright), and user-provided files. | _(none)_ | `npx Equipes_agentes install image-fetcher` |
-| [image-creator](./image-creator/) | mcp | Render HTML/CSS into production-ready PNG images via Playwright. | _(none)_ | `npx Equipes_agentes install image-creator` |
+_Nenhuma skill disponível no momento._
 
-## Skill Types
+## Tipos de Skill
 
-- **mcp** -- Connects to an external MCP server (stdio or HTTP transport)
-- **script** -- Runs a local script (Node.js, Python, etc.)
-- **hybrid** -- Combines MCP server access with local script capabilities
+- **mcp** -- Conecta a um servidor MCP externo (transporte stdio ou HTTP)
+- **script** -- Executa um script local (Node.js, Python, etc.)
+- **hybrid** -- Combina acesso a servidor MCP com capacidades de script local
 
-## Directory Structure
+## Estrutura de Diretórios
 
-Each skill lives in its own folder with a `SKILL.md` file:
+Cada skill vive em sua própria pasta com um arquivo `SKILL.md`:
 
 ```
 skills/
-  image-fetcher/
-    SKILL.md
-  image-creator/
-    SKILL.md
 ```
 
-The `SKILL.md` file contains YAML frontmatter (name, type, version, MCP/script config, env vars, categories) and a Markdown body with usage instructions and available operations.
+O arquivo `SKILL.md` contém frontmatter YAML (nome, tipo, versão, configuração de MCP/script, variáveis de ambiente, categorias) e um corpo Markdown com instruções de uso e operações disponíveis.
 
-## Adding a New Skill
+## Adicionando uma Nova Skill
 
-1. Create a new folder under `skills/` with the skill ID as the name
-2. Add a `SKILL.md` file with valid YAML frontmatter and Markdown body
-3. If the skill includes scripts, place them in a `scripts/` subfolder
-4. Update this README to include the new skill in the catalog table
-
+1. Crie uma nova pasta em `skills/` com o ID da skill como nome
+2. Adicione um arquivo `SKILL.md` com frontmatter YAML válido e corpo Markdown
+3. Se a skill incluir scripts, coloque-os em uma subpasta `scripts/`
+4. Atualize este README para incluir a nova skill na tabela do catálogo

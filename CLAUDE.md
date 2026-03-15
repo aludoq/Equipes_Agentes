@@ -1,45 +1,44 @@
-﻿# Equipes_agentes â€” Project Instructions
+# Equipes_agentes — Instruções do Projeto
 
-This project uses **Equipes_agentes**, a multi-agent orchestration framework.
+Este projeto utiliza o **Equipes_agentes**, um framework de orquestração multi-agentes.
 
-## Quick Start
+## Início Rápido
 
-Type `/Equipes_agentes` to open the main menu, or use any of these commands:
-- `/Equipes_agentes create` â€” Create a new squad
-- `/Equipes_agentes run <name>` â€” Run a squad
-- `/Equipes_agentes help` â€” See all commands
+Digite `/Equipes_agentes` para abrir o menu principal, ou use qualquer um destes comandos:
+- `/Equipes_agentes create` — Criar um novo squad
+- `/Equipes_agentes run <nome>` — Executar um squad
+- `/Equipes_agentes help` — Ver todos os comandos
 
-## Directory Structure
+## Estrutura de Diretórios
 
-- `_Equipes_agentes/` â€” Equipes_agentes core files (do not modify manually)
-- `_Equipes_agentes/_memory/` â€” Persistent memory (company context, preferences)
-- `skills/` â€” Installed skills (integrations, scripts, prompts)
-- `squads/` â€” User-created squads
-- `squads/{name}/_investigations/` â€” Sherlock content investigations (profile analyses)
-- `squads/{name}/output/` â€” Generated content and files
-- `_Equipes_agentes/_browser_profile/` â€” Persistent browser sessions (login cookies, localStorage)
+- `_Equipes_agentes/` — Arquivos principais do Equipes_agentes (não modifique manualmente)
+- `_Equipes_agentes/_memory/` — Memória persistente (contexto da empresa, preferências)
+- `skills/` — Skills instaladas (integrações, scripts, prompts)
+- `squads/` — Squads criadas pelo usuário
+- `squads/{nome}/_investigations/` — Investigações de conteúdo do Sherlock (análises de perfil)
+- `squads/{nome}/output/` — Conteúdo e arquivos gerados
+- `_Equipes_agentes/_browser_profile/` — Sessões persistentes do navegador (cookies de login, localStorage)
 
-## How It Works
+## Como Funciona
 
-1. The `/Equipes_agentes` skill is the entry point for all interactions
-2. The **Architect** agent creates and modifies squads
-3. During squad creation, the **Sherlock** investigator can analyze reference profiles (Instagram, YouTube, Twitter/X, LinkedIn) to extract real content patterns
-4. The **Pipeline Runner** executes squads automatically
-5. Agents communicate via persona switching (inline) or subagents (background)
-6. Checkpoints pause execution for user input/approval
+1. A skill `/Equipes_agentes` é o ponto de entrada para todas as interações
+2. O agente **Arquiteto** cria e modifica squads
+3. Durante a criação do squad, o investigador **Sherlock** pode analisar perfis de referência (Instagram, YouTube, Twitter/X, LinkedIn) para extrair padrões reais de conteúdo
+4. O **Pipeline Runner** executa os squads automaticamente
+5. Os agentes se comunicam via troca de persona (inline) ou subagentes (segundo plano)
+6. Checkpoints pausam a execução para entrada/aprovação do usuário
 
-## Rules
+## Regras
 
-- Always use `/Equipes_agentes` commands to interact with the system
-- Do not manually edit files in `_Equipes_agentes/core/` unless you know what you're doing
-- Squad YAML files can be edited manually if needed, but prefer using `/Equipes_agentes edit`
-- Company context in `_Equipes_agentes/_memory/company.md` is loaded for every squad run
+- Sempre use comandos `/Equipes_agentes` para interagir com o sistema
+- Não edite manualmente os arquivos em `_Equipes_agentes/core/` a menos que saiba o que está fazendo
+- Arquivos YAML de squad podem ser editados manualmente se necessário, mas prefira usar `/Equipes_agentes edit`
+- O contexto da empresa em `_Equipes_agentes/_memory/company.md` é carregado para toda execução de squad
 
-## Browser Sessions
+## Sessões de Navegador
 
-Equipes_agentes uses a persistent Playwright browser profile to keep you logged into social media platforms.
-- Sessions are stored in `_Equipes_agentes/_browser_profile/` (gitignored, private to you)
-- First time accessing a platform, you'll log in manually once
-- Subsequent runs will reuse your saved session
-- **Important:** The native Claude Code Playwright plugin must be disabled. Equipes_agentes uses its own `@playwright/mcp` server configured in `.mcp.json`.
-
+O Equipes_agentes utiliza um perfil de navegador Playwright persistente para manter você logado em plataformas de redes sociais.
+- As sessões são armazenadas em `_Equipes_agentes/_browser_profile/` (ignorado pelo git, privado para você)
+- Na primeira vez que acessar uma plataforma, você fará login manualmente uma vez
+- Execuções subsequentes reutilizarão sua sessão salva
+- **Importante:** O plugin nativo Playwright do Claude Code deve ser desativado. O Equipes_agentes utiliza seu próprio servidor `@playwright/mcp` configurado em `.mcp.json`.

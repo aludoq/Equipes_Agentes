@@ -1,193 +1,164 @@
-﻿---
+---
 name: "Best-Practice Creator"
 description: >
   Guides creation and maintenance of best-practice files for the Equipes_agentes best-practices library.
   Handles format validation, cross-references, versioning, and catalog consistency.
 description_pt-BR: >
-  Guia a criaÃ§Ã£o e manutenÃ§Ã£o de arquivos de best-practice na biblioteca de best-practices do Equipes_agentes.
-  Cuida de validaÃ§Ã£o de formato, referÃªncias cruzadas, versionamento e consistÃªncia do catÃ¡logo.
+  Guia a criação e manutenção de arquivos de melhores práticas (best-practice) na biblioteca de melhores práticas do Equipes_agentes.
+  Cuida de validação de formato, referências cruzadas, versionamento e consistência do catálogo.
 description_es: >
-  GuÃ­a la creaciÃ³n y mantenimiento de archivos de best-practice en la biblioteca de best-practices de Equipes_agentes.
-  Maneja validaciÃ³n de formato, referencias cruzadas, versionamiento y consistencia del catÃ¡logo.
+  Guía la creación y mantenimiento de archivos de best-practice en la biblioteca de best-practices de Equipes_agentes.
+  Maneja validación de formato, referencias cruzadas, versionamiento y consistencia del catálogo.
 type: prompt
 version: "2.0.0"
 ---
 
-# Best-Practice Creator â€” Workflow
+# Best-Practice Creator — Workflow
 
-Use this workflow when creating a new best-practice file for the `_Equipes_agentes/core/best-practices/` library.
+Use este workflow ao criar um novo arquivo de melhores práticas para a biblioteca `_Equipes_agentes/core/best-practices/`.
 
-## Pre-flight Checks
+## Verificações Prévias
 
-1. **Scan existing best-practice files**: Read `_Equipes_agentes/core/best-practices/_catalog.yaml`. Extract `id`, `name`, `whenToUse`, `file` from each entry.
-2. **Check for overlap**: Verify the new best-practice file doesn't duplicate an existing entry's `whenToUse` scope. If there's overlap, clarify the differentiation before proceeding.
-3. **List available skills**: Read all `skills/*/SKILL.md` files. Extract `name`, `description`, `type` from each â€” these may inform the best-practice file's content.
+1. **Escanear arquivos existentes**: Leia `_Equipes_agentes/core/best-practices/_catalog.yaml`. Extraia `id`, `name`, `whenToUse`, `file` de cada entrada.
+2. **Verificar sobreposições**: Garanta que o novo arquivo não duplique o escopo de `whenToUse` de uma entrada existente. Se houver sobreposição, esclareça a diferenciação antes de prosseguir.
+3. **Listar skills disponíveis**: Leia todos os arquivos `skills/*/SKILL.md`. Extraia `name`, `description`, `type` de cada um — isso pode informar o conteúdo do arquivo de melhores práticas.
 
-## Creation Checklist
+## Checklist de Criação
 
-For each new best-practice file, ensure ALL of the following:
+Para cada novo arquivo de melhores práticas, garanta TODOS os itens a seguir:
 
 ### Frontmatter (YAML)
 
-- [ ] `id`: lowercase kebab-case (e.g., `copywriting`)
-- [ ] `name`: Display name for catalog listing (e.g., `"Copywriting & Persuasive Writing"`)
-- [ ] `whenToUse`: Multi-line with positive scope AND "NOT for: ..." negative scope referencing other best-practice IDs
-- [ ] `version`: `"1.0.0"` for new best-practice files
+- [ ] `id`: kebab-case em letras minúsculas (ex: `copywriting`)
+- [ ] `name`: Nome de exibição para a listagem do catálogo (ex: `"Copywriting & Escrita Persuasiva"`)
+- [ ] `whenToUse`: Multi-linha com escopo positivo E escopo negativo "NOT for: ..." referenciando outros IDs de melhores práticas
+- [ ] `version`: `"1.0.0"` para novos arquivos
 
-### Body (Markdown) â€” All sections mandatory
+### Corpo (Markdown) — Todas as seções são obrigatórias
 
-- [ ] **Core Principles**: 6+ numbered domain-specific decision rules, each with a bold title and detailed explanation
-- [ ] **Techniques & Frameworks**: Concrete methods, models, or processes practitioners use in this discipline (e.g., diagnostic steps, framework selections, structural patterns)
-- [ ] **Quality Criteria**: 4+ checkable criteria as `- [ ]` list that can be used to evaluate output
-- [ ] **Output Examples**: 2+ complete examples, 15+ lines each, realistic NOT template-like
-- [ ] **Anti-Patterns**: Never Do (4+) + Always Do (3+), each with explanation
-- [ ] **Vocabulary Guidance**: Terms/phrases to Always Use (5+), Terms/phrases to Never Use (3+), Tone Rules (2+)
+- [ ] **Core Principles**: 6+ regras de decisão específicas do domínio numeradas, cada uma com um título em negrito e explicação detalhada
+- [ ] **Techniques & Frameworks**: Métodos concretos, modelos ou processos que profissionais usam nesta disciplina (ex: passos de diagnóstico, seleções de framework, padrões estruturais)
+- [ ] **Quality Criteria**: 4+ critérios de verificação como lista `- [ ]` que podem ser usados para avaliar o resultado
+- [ ] **Output Examples**: 2+ exemplos completos, 15+ linhas cada, realistas e NÃO com aparência de template
+- [ ] **Anti-Patterns**: O Que Nunca Fazer (4+) + O Que Sempre Fazer (3+), cada um com explicação
+- [ ] **Vocabulary Guidance**: Termos/frases para Sempre Usar (5+), Termos/frases para Nunca Usar (3+), Regras de Tom (2+)
 
-### Quality Minimums
+### Mínimos de Qualidade
 
-| Section | Minimum |
+| Seção | Mínimo |
 |---------|---------|
-| Total file lines | 200+ |
-| Core Principles | 6+ numbered rules |
-| Techniques & Frameworks | 3+ concrete techniques |
-| Vocabulary Always Use | 5+ terms |
-| Vocabulary Never Use | 3+ terms |
-| Output Examples | 2 complete, 15+ lines each |
-| Anti-Patterns (Never Do) | 4+ |
-| Anti-Patterns (Always Do) | 3+ |
-| Quality Criteria | 4+ checkable items |
+| Total de linhas do arquivo | 200+ |
+| Princípios Transversais | 6+ regras numeradas |
+| Técnicas e Frameworks | 3+ técnicas concretas |
+| Vocabulário (Sempre Usar) | 5+ termos |
+| Vocabulário (Nunca Usar) | 3+ termos |
+| Exemplos de Saída | 2 completos, 15+ linhas cada |
+| Anti-padrões (Nunca Fazer) | 4+ |
+| Anti-padrões (Sempre Fazer) | 3+ |
+| Critérios de Qualidade | 4+ itens verificáveis |
 
-## Post-Creation Steps
+## Passos Pós-Criação
 
-### 1. Update existing best-practice files' `whenToUse`
+### 1. Atualizar `whenToUse` de arquivos existentes
 
-For each existing best-practice file whose scope overlaps with the new one:
-- Add a "NOT for: {overlapping-scope} â†’ See {new-best-practice-id}" line to their `whenToUse`
-- Bump their version (patch increment)
+Para cada arquivo de melhores práticas existente cujo escopo se sobreponha ao novo:
+- Adicione uma linha "NOT for: {escopo-sobreposto} → See {novo-id-de-melhores-praticas}" ao `whenToUse` deles.
+- Aumente a versão deles (incremento de patch).
 
-### 2. Update `_catalog.yaml`
+### 2. Atualizar `_catalog.yaml`
 
-Add a new entry to `_Equipes_agentes/core/best-practices/_catalog.yaml` with:
-- `id`: matching the frontmatter `id`
-- `name`: matching the frontmatter `name`
-- `whenToUse`: single-line summary of the scope (positive only, no "NOT for")
+Adicione uma nova entrada em `_Equipes_agentes/core/best-practices/_catalog.yaml` com:
+- `id`: correspondente ao `id` do frontmatter
+- `name`: correspondente ao `name` do frontmatter
+- `whenToUse`: resumo em uma linha do escopo (apenas positivo, sem "NOT for")
 - `file`: `{id}.md`
 
-Place it under the appropriate section comment (Discipline or Platform best practices).
+Coloque-o sob o comentário de seção apropriado (Discipline ou Platform).
 
-### 3. File placement
+### 3. Localização do arquivo
 
-Save to `_Equipes_agentes/core/best-practices/{id}.md`.
+Salve em `_Equipes_agentes/core/best-practices/{id}.md`.
 
-### 4. Validation
+### 4. Validação
 
-Re-read the created file and verify:
-- [ ] All checklist items above are present
-- [ ] YAML frontmatter parses correctly (no syntax errors)
-- [ ] `whenToUse` references only existing best-practice IDs
-- [ ] Output examples are realistic, not template placeholders
-- [ ] File exceeds 200 lines
-- [ ] Corresponding entry exists in `_catalog.yaml`
+Releia o arquivo criado e verifique:
+- [ ] Todos os itens do checklist acima estão presentes
+- [ ] O frontmatter YAML é processado corretamente (sem erros de sintaxe)
+- [ ] `whenToUse` referencia apenas IDs de melhores práticas existentes
+- [ ] Exemplos de saída são realistas, não apenas indicadores de template
+- [ ] O arquivo excede 200 linhas
+- [ ] A entrada correspondente existe em `_catalog.yaml`
 
 ---
 
-# Best-Practice Updater â€” Workflow
+# Best-Practice Updater — Workflow
 
-Use this workflow when updating best-practice files in the `_Equipes_agentes/core/best-practices/` library.
+Use este workflow ao atualizar arquivos de melhores práticas na biblioteca `_Equipes_agentes/core/best-practices/`.
 
-## Versioning Rules (Semver)
+## Regras de Versionamento (Semver)
 
-| Change Type | Version Bump | Examples |
+| Tipo de Mudança | Incremento de Versão | Exemplos |
 |-------------|-------------|----------|
-| **Patch** (x.x.X) | Fix typos, adjust wording, minor refinements | Fix anti-pattern phrasing, correct a vocabulary term |
-| **Minor** (x.X.0) | Add new content, extend capabilities | Add new principle, new output example, new technique |
-| **Major** (X.0.0) | Rewrite or restructure significantly | Rewrite core principles, fundamentally change scope |
+| **Patch** (x.x.X) | Corrigir erros de digitação, ajustar redação, pequenos refinamentos | Corrigir frase de anti-padrão, corrigir termo de vocabulário |
+| **Minor** (x.X.0) | Adicionar novo conteúdo, expandir capacidades | Adicionar novo princípio, novo exemplo de saída, nova técnica |
+| **Major** (X.0.0) | Reescrever ou reestruturar significativamente | Reescrever princípios básicos, mudar fundamentalmente o escopo |
 
-Always update the `version` field in the YAML frontmatter after any change.
+Sempre atualize o campo `version` no frontmatter YAML após qualquer alteração.
 
-## Update Scenarios
+## Cenários de Atualização
 
-### When a best-practice file is removed from the library
+### Quando um arquivo é removido da biblioteca
 
-1. Get the removed best-practice file's `id`
-2. Remove its entry from `_Equipes_agentes/core/best-practices/_catalog.yaml`
-3. Scan ALL remaining best-practice files in `_Equipes_agentes/core/best-practices/*.md`
-4. For each file, check if the removed ID is referenced in `whenToUse`
-   - Look for patterns: "NOT for: ... â†’ See {removed-id}"
-5. If found, remove that "NOT for" line
-6. Bump the affected files' version (patch: x.x.X)
+1. Obtenha o `id` do arquivo removido
+2. Remova sua entrada de `_Equipes_agentes/core/best-practices/_catalog.yaml`
+3. Escaneie TODOS os arquivos restantes em `_Equipes_agentes/core/best-practices/*.md`
+4. Para cada arquivo, verifique se o ID removido é referenciado no `whenToUse`
+   - Procure por padrões: "NOT for: ... → See {id-removido}"
+5. Se encontrado, remova essa linha "NOT for"
+6. Aumente a versão dos arquivos afetados (patch: x.x.X)
 
-### When a new best-practice file is added to the library
+### Quando um novo arquivo é adicionado à biblioteca
 
-The Best-Practice Creator workflow (above) handles the initial `whenToUse` cross-references during creation. This section is only needed if cross-references were missed or need adjustment after the fact.
+O workflow Best-Practice Creator (acima) lida com as referências cruzadas iniciais de `whenToUse` durante a criação. Esta seção é necessária apenas se as referências cruzadas foram esquecidas ou precisam de ajuste posterior.
 
-1. Read the new best-practice file's `whenToUse` â€” identify its scope
-2. Scan existing best-practice files for overlapping scope
-3. Add "NOT for: {new-scope} â†’ See {new-id}" where appropriate
-4. Bump affected files' version (patch)
-5. Ensure the new entry exists in `_catalog.yaml`
+1. Leia o `whenToUse` do novo arquivo — identifique seu escopo
+2. Escaneie arquivos existentes em busca de sobreposição de escopo
+3. Adicione "NOT for: {novo-escopo} → See {novo-id}" onde apropriado
+4. Aumente a versão dos arquivos afetados (patch)
+5. Garanta que a nova entrada exista no `_catalog.yaml`
 
-### When updating a best-practice file's content
+### Ao atualizar o conteúdo de um arquivo de melhores práticas
 
-1. Make the content changes
-2. Verify ALL mandatory sections still exist:
-   - [ ] Core Principles (6+ rules)
-   - [ ] Techniques & Frameworks (3+ techniques)
-   - [ ] Quality Criteria (4+ checkable items)
-   - [ ] Output Examples (2+ complete examples)
-   - [ ] Anti-Patterns (Never Do + Always Do)
-   - [ ] Vocabulary Guidance (Always Use, Never Use, Tone Rules)
-3. Bump version according to semver rules above
-4. If the `whenToUse` scope changed, update cross-references in other best-practice files and in `_catalog.yaml`
+1. Faça as alterações de conteúdo
+2. Verifique se TODAS as seções obrigatórias ainda existem:
+   - [ ] Core Principles (6+ regras)
+   - [ ] Techniques & Frameworks (3+ técnicas)
+   - [ ] Quality Criteria (4+ itens verificáveis)
+   - [ ] Output Examples (2+ exemplos completos)
+   - [ ] Anti-Patterns (Nunca Fazer + Sempre Fazer)
+   - [ ] Vocabulary Guidance (Sempre Usar, Nunca Usar, Regras de Tom)
+3. Aumente a versão de acordo com as regras semver acima
+4. Se o escopo de `whenToUse` mudou, atualize as referências cruzadas em outros arquivos e no `_catalog.yaml`
 
-### When updating a best-practice file's `whenToUse` scope
+### Ao atualizar o escopo `whenToUse` de um arquivo
 
-This is the most impactful change â€” it affects how the Architect selects best practices during squad creation.
+Esta é a mudança mais impactante — ela afeta como o Arquiteto seleciona as melhores práticas durante a criação do squad.
 
-1. Document the old scope and new scope
-2. Update the best-practice file's `whenToUse` field
-3. Scan ALL other best-practice files' `whenToUse` for references to this ID
-4. Update cross-references to reflect the new scope
-5. Update the `whenToUse` summary in `_catalog.yaml`
-6. Bump version (minor if scope expanded, patch if scope narrowed)
+1. Documente o escopo antigo e o novo escopo
+2. Atualize o campo `whenToUse` do arquivo
+3. Escaneie o `whenToUse` de TODOS os outros arquivos em busca de referências a este ID
+4. Atualize as referências cruzadas para refletir o novo escopo
+5. Atualize o resumo de `whenToUse` no `_catalog.yaml`
+6. Aumente a versão (minor se o escopo expandiu, patch se o escopo diminuiu)
 
-## Validation Checklist
+## Checklist de Validação
 
-After ANY update, verify:
+Após QUALQUER atualização, verifique:
 
-- [ ] Version was bumped correctly (patch/minor/major per rules above)
-- [ ] All mandatory sections still present and non-empty
-- [ ] `whenToUse` cross-references are consistent across ALL best-practice files
-- [ ] No broken cross-references to removed best-practice IDs
-- [ ] Output examples are still realistic and complete
-- [ ] File still exceeds 200 lines minimum
-- [ ] `_catalog.yaml` entry is in sync with frontmatter (`id`, `name`, `whenToUse`)
-
-## Bulk Operations
-
-### Verify catalog consistency
-
-```
-Read _Equipes_agentes/core/best-practices/_catalog.yaml
-For each entry in catalog:
-  1. Verify _Equipes_agentes/core/best-practices/{entry.file} exists
-  2. Read the file's frontmatter
-  3. Verify entry.id matches frontmatter id
-  4. Verify entry.name matches frontmatter name
-  5. Flag any mismatches
-
-For each .md file in _Equipes_agentes/core/best-practices/ (excluding _catalog.yaml):
-  1. Verify a corresponding entry exists in _catalog.yaml
-  2. Flag any orphaned files with no catalog entry
-```
-
-### Verify cross-reference consistency
-
-```
-For each best-practice file A in _Equipes_agentes/core/best-practices/*.md:
-  For each "NOT for: ... â†’ See {id}" in A.whenToUse:
-    1. Verify _Equipes_agentes/core/best-practices/{id}.md exists
-    2. Verify {id}'s whenToUse covers the referenced scope
-    3. Flag inconsistencies
-```
-
+- [ ] A versão foi aumentada corretamente (patch/minor/major conforme as regras)
+- [ ] Todas as seções obrigatórias continuam presentes e não vazias
+- [ ] As referências cruzadas em `whenToUse` são consistentes em TODOS os arquivos
+- [ ] Não há referências quebradas para IDs de melhores práticas removidos
+- [ ] Exemplos de saída continuam realistas e completos
+- [ ] O arquivo ainda excede o mínimo de 200 linhas
+- [ ] A entrada no `_catalog.yaml` está em sincronia com o frontmatter (`id`, `name`, `whenToUse`)
